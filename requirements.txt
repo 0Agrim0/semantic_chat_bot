@@ -1,0 +1,11 @@
+python-dotenv
+semantic-router[local]
+mysql-connector-python
+pytz
+pandas
+langchain_google_genai
+langchain
+chromadb
+google-cloud-aiplatform==1.38.0
+langchain-google-vertexai
+streamlit
