@@ -94,7 +94,7 @@ class Consumer_Manager:
             id_dict[id_key] = id[0]
             id_str = id_str + str(id_key) + ". " + str(id[0]) + "\n"
             id_key = id_key + 1
-        set_state(self.phone, 'consumer_question_manager', 'get_order_details')
+        set_state(self.phone, 'consumer_question_manager', 'question_get_order_details')
         self.last_order_dict = id_dict
         return "Your last five order IDs are {} \n Which order information would you like?".format(id_str)
 

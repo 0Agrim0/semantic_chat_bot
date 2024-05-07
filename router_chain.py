@@ -3,7 +3,8 @@ from tools.chitchat_tool import rag_query
 from managers.consumer_manager import Consumer_Manager
 from tools.order_tool import order_rag_query
 from state_managment import get_state, set_state
-from managers import consumer_question_manager
+from managers import question_manager
+from tools.issue_tool import issue_rag_query
 
 CM = Consumer_Manager()
 
@@ -19,9 +20,12 @@ class function_router:
         return result
 
     def order_tool(self):
-        a = order_rag_query(phone=self.phone, query=self.question)
-        print(a)
-        return a
+        order_result = order_rag_query(phone=self.phone, query=self.question)
+        return order_result
+
+    def issue_tool(self):
+        issue_result = issue_rag_query(self.phone, self.question)
+        return issue_result
 
     def router(self, query):
         state = get_state()
@@ -40,8 +44,8 @@ class function_router:
                 return ans
         else:
             try:
-                bar = getattr(consumer_question_manager,
-                              "question_" + state[str(self.phone)]['next_function_call'])
+                bar = getattr(question_manager, state[str(self.phone)]['next_function_call'])
+                print(bar)
                 result = bar(self.phone, query)
                 return result
             except:

@@ -24,7 +24,7 @@ _llm = Llama(
 llm = LlamaCppLLM(name="Mistral-7B-v0.2-Instruct", llm=_llm, max_tokens=None)
 
 
-class Semantic_layer_order_manager:
+class Semantic_layer_issue_manager:
 
     def __init__(self, question):
         self.word_digit_pairs = [
@@ -45,54 +45,59 @@ class Semantic_layer_order_manager:
         semantic_coupon = Route(
             name="coupon",
             utterances=[
-
+                "coupon and offer related "
             ],
         )
         semantic_payment= Route(
             name="payment",
             utterances=[
-
+                "payment "
+            ],
+        )
+        semantic_freshdaily = Route(
+            name="freshdaily",
+            utterances=[
+                "freshdaily "
             ],
         )
         semantic_referral = Route(
             name="referral",
             utterances=[
-
+                "referral"
             ],
 
         )
-
         out_subscription = Route(
             name="subscription",
             utterances=[
-
+                "subscription"
             ]
         )
         out_refund = Route(
             name="refund",
             utterances=[
-
+                "refund"
             ]
         )
         out_reward = Route(
             name="reward",
             utterances=[
-
+                "reward"
             ]
         )
         out_partner = Route(
             name="partner",
             utterances=[
-
+                "partner"
             ]
         )
         out_any_other_issue = Route(
             name="any_other_issue",
             utterances=[
-
+                "any_other"
             ]
         )
-        routes = [semantic_coupon, semantic_payment, semantic_referral,out_subscription,out_refund,out_reward,out_partner,out_any_other_issue]
+        routes = [semantic_coupon, semantic_payment,semantic_freshdaily, semantic_referral,out_subscription,out_refund,out_reward,out_partner,out_any_other_issue]
 
         layer = RouteLayer(encoder=encoder, routes=routes, llm=llm)
         return layer

@@ -62,14 +62,34 @@ class Semantic_layer_question_manager:
                 'porana order?',
                 "where is privous order",
                 "where is privous order",
-                'previous order'
+                'previous order',
+                'order',
+                'order',
+                'order'
             ],
         )
         semantic_issue_function_calling_tool = Route(
             name="issue_tool",
             utterances=[
                 "issue in my order",
-                "issue"
+                "issue",
+                "coupon and offer related",
+                "payment",
+                "referral",
+                "subscription",
+                "refund",
+                "reward",
+                "partner",
+                "any_other_issue"
+                "issue with order",
+                "issue with order",
+                "issue with order",
+                "i have issue in order",
+                "mera order krab aya ha",
+                "mera order krab aya ha",
+                "mera order krab aya ha",
+                "freshdeal",
+                "freshdeal"
             ]
         )
         unkown_calling_tool = Route(
