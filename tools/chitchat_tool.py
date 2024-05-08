@@ -148,7 +148,7 @@ def vector_query(query):
     print(docs)
 
 
-def rag_query( query, phone):
+def rag_query(query, phone):
     try:
         consumer_name = CM.get_consumer_name(phone)
         consumer_history = CM.consumer_history()

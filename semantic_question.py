@@ -65,7 +65,10 @@ class Semantic_layer_question_manager:
                 'previous order',
                 'order',
                 'order',
-                'order'
+                'order',
+                'mera order ka ha',
+                'mera order ka ha',
+                'mera order ka ha'
             ],
         )
         semantic_issue_function_calling_tool = Route(
@@ -118,6 +121,9 @@ class Semantic_layer_question_manager:
                 "What categories does Otipy deal with?",
                 "Which brands does Otipy deal with?"
                 "can u placed my order",
+                "the information you gave on my last order is incorrect. it was delivered yesterday.",
+                "the information you gave on my last order is incorrect. it was delivered yesterday.",
+                "the information you gave on my last order is incorrect. it was delivered yesterday."
             ]
         )
 
