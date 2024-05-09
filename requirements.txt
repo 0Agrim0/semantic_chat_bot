@@ -6,6 +6,6 @@ pandas
 langchain_google_genai
 langchain
 chromadb
-google-cloud-aiplatform==1.38.0
+google-cloud-aiplatform
 langchain-google-vertexai
 streamlit
