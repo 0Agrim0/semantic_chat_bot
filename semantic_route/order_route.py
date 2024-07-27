@@ -15,7 +15,7 @@ model_path = "/".join(os.getcwd().split("/")) + os.environ['MODEL_PATH']
 
 encoder = HuggingFaceEncoder()
 _llm = Llama(
-    model_path=model_path + "/semantic_order.gguf",
+    model_path=model_path + "/semantic_model.gguf",
 
     n_gpu_layers=0,
     n_ctx=2048,
@@ -67,6 +67,9 @@ class Semantic_layer_order_manager:
         semantic_route_get_last_five_order = Route(
             name="get_last_five_order",
             utterances=[
+                "mera porana order ka ha",
+                "mera porana order ka ha",
+                "mera porana order ka ha",
                 "where is my previos order",
                 "where is my previos order",
                 "where is my previos order",
@@ -91,16 +94,23 @@ class Semantic_layer_order_manager:
                 "Second last order?",
                 "Day before yesterday order?",
                 "Where is my first order?",
-                "Parson ka order?"
+                "Parson ka order?",
+                "porana order ka ha",
+                "porana order ka ha"
             ],
         )
 
         out_context = Route(
             name="out_context",
             utterances=[
+                "order id 2413",
+                "order id",
+                "order id 41341",
                 "where is my order with this order id 16022951",
                 "where is my order with this order id 16022951",
-                "where is my order with cancel order"
+                "where is my order with cancel order",
+                "order id 4134",
+                "order id14234"
             ]
         )
 

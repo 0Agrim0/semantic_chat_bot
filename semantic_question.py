@@ -3,6 +3,7 @@ from semantic_router import RouteLayer
 from llama_cpp import Llama
 from semantic_router.llms.llamacpp import LlamaCppLLM
 from semantic_router.encoders import HuggingFaceEncoder
+from semantic_router.encoders import GoogleEncoder
 import os
 from dotenv import find_dotenv, load_dotenv
 from langchain_google_vertexai import ChatVertexAI
@@ -12,12 +13,12 @@ if load_dotenv(find_dotenv()):
 else:
     raise ".env not loaded"
 
+# GoogleEncoder()
 model_path = "/".join(os.getcwd().split("/")) + os.environ['MODEL_PATH']
 
 encoder = HuggingFaceEncoder()
 _llm = Llama(
     model_path=model_path + "/semantic_model.gguf",
-
     n_gpu_layers=0,
     n_ctx=2048,
     # verbose=False
@@ -48,6 +49,8 @@ class Semantic_layer_question_manager:
         semantic_order_function_calling_tool = Route(
             name="order_tool",
             utterances=[
+                "order kidr ha ha bhai",
+                "order kidr ha ha bhai",
                 'where is my last order?',
                 'last order status',
                 'order status',
@@ -68,12 +71,19 @@ class Semantic_layer_question_manager:
                 'order',
                 'mera order ka ha',
                 'mera order ka ha',
-                'mera order ka ha'
+                'mera order ka ha',
+                'order kidr ha',
+                "mera order kyu nahi aya abhi tk",
+                "mera order kyu nahi aya abhi tk",
+                "mera order kyu nahi aya abhi tk"
             ],
         )
         semantic_issue_function_calling_tool = Route(
             name="issue_tool",
             utterances=[
+                "mera ak issue ha",
+                "mera ak issue ha",
+                "mera ak issue ha",
                 "issue in my order",
                 "issue",
                 "coupon and offer related",
@@ -92,12 +102,65 @@ class Semantic_layer_question_manager:
                 "mera order krab aya ha",
                 "mera order krab aya ha",
                 "freshdeal",
-                "freshdeal"
+                "freshdeal",
+                "muje refund chahiye item ka",
+                "muje refund chahiye item ka",
+                'refund',
+                'merko refund chaiya',
+                'mera ak product krab ha',
+                'sara product krab ha',
+                'This packet is damaged',
+                'This packet is damaged',
+                "i have an issue in payment ",
+                "i have an issue in payment ",
+                "i have an issue",
+                "mera payment thik nahi hoa",
+                "mera payment thik nahi hoa",
+                "mera payment thik nahi hoa",
+                "bhugataan",
+                "bhugataan",
+                "bhugataan chaiya mera order pr",
+                "bhugataan chaiya mera order pr",
+                "bhugataan chaiya mera order pr",
+                "mera order mai issue ha",
+                "mera order mai issue ha",
+                "mera order mai issue ha",
+                "subscribtion",
+                "subscribtion",
+                "refferal",
+                "refferal",
+                "refferal",
+                "refferral ka ha mera",
+                "refferral ka ha mera",
+                "refferral ka ha mera",
+                "wallet",
+                "wallet",
+                "Coupons and Offers Related",
+                "Coupons and Offers Related",
+                "subscription ka order nahi aya",
+                "subscription ka order nahi aya",
+                "subscription ka order nahi aya",
+                "subscription ka order nahi aya",
+                "coupon nahi lgra",
+                "coupon nahi lgra",
+                "coupon nahi lgra"
+            ]
+        )
+        agent_call = Route(
+            name="agent_tool",
+            utterances=[
+                "connect with agent",
+                "agent",
+                "agent",
+                "agent sa bat kra do"
             ]
         )
         unkown_calling_tool = Route(
             name="chitchat_tool",
             utterances=[
+                "how can i order my order",
+                "how can i order my order",
+                "how can i order my order",
                 "can u placed my order",
                 "can u placed my order",
                 "Tell me about Otipy",
@@ -123,11 +186,34 @@ class Semantic_layer_question_manager:
                 "can u placed my order",
                 "the information you gave on my last order is incorrect. it was delivered yesterday.",
                 "the information you gave on my last order is incorrect. it was delivered yesterday.",
-                "the information you gave on my last order is incorrect. it was delivered yesterday."
+                "the information you gave on my last order is incorrect. it was delivered yesterday.",
+                "kya ap mera order book kra skta ha",
+                "kya ap mera order book kra skta ha",
+                "mera order book krdo",
+                "order book krdo",
+                "order booking",
+                "mera lia order book krdo",
+                "mera lia order book krdo",
+                "order id 1400792",
+                "order id 14007924",
+                "order id ",
+                "order id",
+                "order id ",
+                "my order is not delivered",
+                "my order is not delivered",
+                "my order is not delivered",
+                "isma sa koi nahi ha",
+                "isma sa koi nahi ha",
+                "isma sa koi nahi ha",
+                "mera 4 item thi order mai but 3 hi aii",
+                "mera 4 item thi order mai but 3 hi aii",
+                "otipy kya krti ha",
+                "otipy kya krti ha",
+                "otipy kya krti ha"
             ]
         )
 
-        routes = [semantic_order_function_calling_tool, semantic_issue_function_calling_tool, unkown_calling_tool]
+        routes = [unkown_calling_tool,semantic_order_function_calling_tool, semantic_issue_function_calling_tool,agent_call]
 
         layer = RouteLayer(encoder=encoder, routes=routes, llm=llm)
         return layer

@@ -6,6 +6,7 @@ from semantic_router.encoders import HuggingFaceEncoder
 import os
 from dotenv import find_dotenv, load_dotenv
 
+
 if load_dotenv(find_dotenv()):
     pass
 else:
@@ -15,8 +16,7 @@ model_path = "/".join(os.getcwd().split("/")) + os.environ['MODEL_PATH']
 
 encoder = HuggingFaceEncoder()
 _llm = Llama(
-    model_path=model_path + "/semantic_order.gguf",
-
+    model_path=model_path + "/semantic_model.gguf",
     n_gpu_layers=0,
     n_ctx=2048,
     # verbose=False
@@ -46,12 +46,22 @@ class Semantic_layer_issue_manager:
             name="coupon",
             utterances=[
                 "coupon and offer related "
+                "कूपन",
+                "wallet",
+                "wallet",
+                "coupon mai issue ha",
+                "wallet"
             ],
         )
         semantic_payment= Route(
             name="payment",
             utterances=[
-                "payment "
+                "payment",
+                "mera payment thick sa nahi ho bhai"
+                "bhugataan",
+                "bhugataan"
+                "payment",
+                "payment"
             ],
         )
         semantic_freshdaily = Route(
@@ -70,13 +80,15 @@ class Semantic_layer_issue_manager:
         out_subscription = Route(
             name="subscription",
             utterances=[
-                "subscription"
+                "subscription",
+                "subscription ka order nahi aya"
             ]
         )
         out_refund = Route(
             name="refund",
             utterances=[
-                "refund"
+                "refund",
+                "merko refund chaiya"
             ]
         )
         out_reward = Route(
@@ -96,8 +108,16 @@ class Semantic_layer_issue_manager:
             utterances=[
                 "any_other"
             ]
+
         )
-        routes = [semantic_coupon, semantic_payment,semantic_freshdaily, semantic_referral,out_subscription,out_refund,out_reward,out_partner,out_any_other_issue]
+        default = Route(
+            name="default",
+            utterances=[
+                "meri sbji krab ai ha",
+                "meri sbji krab ai ha",
+            ]
+        )
+        routes = [default,semantic_coupon, semantic_payment,semantic_freshdaily, semantic_referral,out_subscription,out_refund,out_reward,out_partner,out_any_other_issue]
 
         layer = RouteLayer(encoder=encoder, routes=routes, llm=llm)
         return layer

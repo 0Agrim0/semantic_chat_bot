@@ -13,6 +13,8 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_google_vertexai import ChatVertexAI
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from managers.consumer_manager import Consumer_Manager
+from lang_guidance import laguage_detector
+from lib.redis_connector import get_redis_dict, set_redis_dict
 
 CM = Consumer_Manager()
 
@@ -39,14 +41,17 @@ db = Chroma(persist_directory=persist_directory, embedding_function=gemini_embed
             client=chroma_client)
 retriever = db.as_retriever(search_type="similarity", search_kwargs={"k": 1})
 
-llm = ChatVertexAI(model="gemini-pro")
+llm = ChatVertexAI(model="gemini-pro",temperature=0.7)
 
 template = """
         You are the Otipy chat bot which help the {consumer_name} to answer the question about Otipy company and where is my order ,where is my previous order 
         Please use the context to provide the simple sweet answer. if context is empty or not related to the question
         just say 'Sorry i cant help'.Please do not mention as provide context.
-        Please add username in answer when needed 
+        Please add username in answer when needed. 
+        You can help the user to solve the issue related order,payment ,refund ,Subscription,Partner,Coupons
         You have only last five order information. if order id is not find in user history do not respond. 
+        You cant able to book the order. 
+        Please add some time if you not satisfied with answer i can contact with the agent.
         
         user history :
             {consumer_history}
@@ -57,12 +62,18 @@ template = """
         question: {question}
         
         Answer:
-        
+            
+            
         IMPORTANT :
+            
             Do not answer question which is not related to the context or out of context just say 'Sorry i cant help you'.
             DO not ask any question to the user.
             Do not explain why you not give answer just say 'Sorry i cant help you'.
             DO not give any fake order status information.
+            Do not provide any information until user want.
+            Please Do not give wrong order id answer.
+            DO not suggest any question to consumer.
+            NEVER show whole data. Just provide small and precise answer according to the question.
        """
 custom_rag_prompt = ChatPromptTemplate.from_template(template)
 
@@ -72,6 +83,7 @@ chain = (
             "consumer_history": itemgetter("consumer_history"),
             "consumer_name": itemgetter("consumer_name"),
             "question": itemgetter("question"),
+            # "language": itemgetter("language"),
         }
         | custom_rag_prompt
         | llm
@@ -92,7 +104,7 @@ def sql_state():
     return data
 
 
-def sql_state_write( last_enrty_time):
+def sql_state_write(last_enrty_time):
     data = sql_state()
     data['entry_time'] = str(last_enrty_time)
     with open("sql_state.json", "w") as json_file:
@@ -150,15 +162,35 @@ def vector_query(query):
 
 def rag_query(query, phone):
     try:
-        consumer_name = CM.get_consumer_name(phone)
-        consumer_history = CM.consumer_history()
-        result = chain.invoke({"consumer_history": consumer_history, "consumer_name": consumer_name, "question": query})
+        # lang = laguage_detector(query)
+        redis_dict = get_redis_dict(str(phone))
+        print("------------------",redis_dict)
+        if redis_dict:
+            consumer_history = redis_dict['consumer_history']
+            consumer_name = redis_dict['consumer_name']
 
-        return result
+            result = chain.invoke(
+                {"consumer_history": consumer_history, "consumer_name": consumer_name, "question": query})
+                 # "language": lang['language']})
 
+            return result
+        else:
+            consumer_name = CM.get_consumer_name(phone)
+            consumer_history = CM.consumer_history()
+            print(consumer_name)
+            print(consumer_history)
+            set_redis_dict(phone, {"consumer_name": consumer_name, "consumer_history": consumer_history}, 5)
+            result = chain.invoke(
+                {"consumer_history": consumer_history, "consumer_name": consumer_name, "question": query,
+                 "language": lang['language']})
+            return result
     except:
-        consumer_name = CM.get_consumer_name(phone)
-        return "I'm sorry {}, but I can't answer your question based on the provided question.".format(consumer_name)
+        try:
+            consumer_name = CM.get_consumer_name(phone)
+            return "I'm sorry {}, but I can't answer your question based on the provided question.".format(
+                consumer_name)
+        except:
+            return "Your number is not registered with us. To access our services seamlessly."
 
 # #
 # if __name__ == "__main__":

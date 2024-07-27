@@ -18,3 +18,14 @@ def set_state(phone, main_flow, next_function_call):
 
     with open("state.json", "w") as outfile:
         outfile.write(json_object)
+
+
+def add_state(phone, main_flow, next_function_call):
+    data = get_state()
+    data[phone] = {
+        "main_flow": main_flow,
+        "next_function_call": next_function_call
+    }
+    json_object = json.dumps(data, indent=4)
+    with open("state.json", "w") as outfile:
+        outfile.write(json_object)
