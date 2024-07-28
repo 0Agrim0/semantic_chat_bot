@@ -2,8 +2,8 @@ import streamlit as st
 from router_chain import function_router
 from tools.issue_tool import issue_static_router
 
-st.set_page_config(page_title="Otipy AI Reporting", )
-st.title("Otipy chat bot")
+st.set_page_config(page_title="Chat bot", )
+st.title("Chat bot")
 
 number = st.text_input("Insert a phone number", value=None, placeholder="Type a number...")
 print(number)
