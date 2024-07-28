@@ -1,6 +1,6 @@
 {
     "7986640195": {
-        "main_flow": "issue_tool",
-        "next_function_call": "issue_question"
+        "main_flow": "default",
+        "next_function_call": "default"
     }
 }
