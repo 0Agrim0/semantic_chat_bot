@@ -52,3 +52,10 @@ PROMPT_PATH=
 REDIS_HOST=
 
 Copy the above environment variables into .env and replace placeholders with your actual credentials and paths.
+
+
+# To start the project 
+Ensure your SQL, Redis, and Chroma DB connections are okay. You can check this by running necessary connectivity tests. To start the UI, run this command:
+
+
+ ./starter.sh
