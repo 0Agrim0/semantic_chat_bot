@@ -158,11 +158,6 @@ class Semantic_layer_question_manager:
         unkown_calling_tool = Route(
             name="chitchat_tool",
             utterances=[
-                "how can i order my order",
-                "how can i order my order",
-                "how can i order my order",
-                "can u placed my order",
-                "can u placed my order",
                 "Tell me about Otipy",
                 "How does Otipy work?",
                 "How do I place an order on Otipy?",
@@ -210,10 +205,47 @@ class Semantic_layer_question_manager:
                 "otipy kya krti ha",
                 "otipy kya krti ha",
                 "otipy kya krti ha"
-            ]
+            ],
         )
+        site_calling_tool=Route(
+            name="site_tool",
+            utterances=[
+                "how can i order my order",
+                "how can i order my order",
+                "how can i order my order",
+                "how can i place the order",
+                "how can i place the order",
+                "how can i place the order",
+                "can u placed my order",
+                "can u placed my order",
+                "how can i order?",
+                "What’s the process for placing an order?",
+                "How do I go about ordering?",
+                "Can you guide me on how to place an order?",
+                "What steps should I follow to make a purchase?",
+                "What’s the procedure for ordering?",
+                "How can I submit an order?",
+                "What’s the best way to order?",
+                "Can you walk me through the ordering process?",
+                "How do I go about ordering something?",
+                "What do I need to do to place an order?",
+                "Main order kaise kar sakta hoon?",
+                "Order place karne ka tarika kya hai?",
+                "Main kaise order de sakta hoon?",
+                "Order kaise kiya jata hai?",
+                "Order kaise karna hai?",
+                "Order kaise karna hai?",
+                "Order kaise karna hai?",
+                "order kasa krana ha",
+                "order kasa krana ha",
+                "order kasa krana ha",
+                "order kasa kro",
+                "order kasa kro",
+                "order kasa kro"
+            ]
+            )
 
-        routes = [unkown_calling_tool,semantic_order_function_calling_tool, semantic_issue_function_calling_tool,agent_call]
+        routes = [unkown_calling_tool,semantic_order_function_calling_tool, semantic_issue_function_calling_tool,agent_call,site_calling_tool]
 
         layer = RouteLayer(encoder=encoder, routes=routes, llm=llm)
         return layer

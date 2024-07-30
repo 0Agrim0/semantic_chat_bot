@@ -181,8 +181,8 @@ def rag_query(query, phone):
             print(consumer_history)
             set_redis_dict(phone, {"consumer_name": consumer_name, "consumer_history": consumer_history}, 5)
             result = chain.invoke(
-                {"consumer_history": consumer_history, "consumer_name": consumer_name, "question": query,
-                 "language": lang['language']})
+                {"consumer_history": consumer_history, "consumer_name": consumer_name, "question": query})
+                 # "language": lang['language']})
             return result
     except:
         try:

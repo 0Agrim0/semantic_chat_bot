@@ -10,6 +10,8 @@ from state_managment import get_state, set_state, add_state
 from managers import question_manager
 from tools.issue_tool import issue_rag_query
 from managers.agent_connect import Agent_connect
+from semantic_route.site_route import Semantic_site_manager
+from managers.site_manager import Site_manager
 
 CM = Consumer_Manager()
 
@@ -35,6 +37,12 @@ class function_router:
     def agent_tool(self):
         a = Agent_connect(self.phone, self.question).agent_chat()
         return a
+
+    def site_tool(self):
+        function_name = Semantic_site_manager(self.question).semantic_query_function()
+        print(function_name)
+        result = Site_manager(self.phone).function_calling(function_name)
+        return result
 
     def router(self, query):
         state = get_state()
